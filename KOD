@@ -1,0 +1,123 @@
+#include <iostream>
+#include <string>
+#include <Windows.h>
+
+using namespace std;
+
+class Vehicle {
+protected:
+    string brand;
+    int speed;
+
+public:
+    Vehicle(string b, int s) : brand(b), speed(s) {
+        cout << "[Vehicle] Конструктор: Створено транспорт марки " << brand << endl;
+    }
+
+    virtual ~Vehicle() {
+        cout << "[Vehicle] Деструктор: Знищено об'єкт марки " << brand << endl;
+    }
+
+    virtual void printInfo() const {
+        cout << "Транспортний засіб: " << brand << ", Макс. швидкість: " << speed << " км/год";
+    }
+};
+class Steamer : public Vehicle {
+private:
+    int displacement;
+
+public:
+
+    Steamer(string b, int s, int d) : Vehicle(b, s), displacement(d) {
+        cout << "[Steamer] Конструктор: Створено пароплав" << endl;
+    }
+
+    ~Steamer() override {
+        cout << "[Steamer] Деструктор: Знищено пароплав" << endl;
+    }
+
+    void printInfo() const override {
+        Vehicle::printInfo();
+        cout << ", Водотоннажність: " << displacement << " тонн" << endl;
+    }
+};
+class Airplane : public Vehicle {
+private:
+    int maxAltitude;
+
+public:
+    Airplane(string b, int s, int alt) : Vehicle(b, s), maxAltitude(alt) {
+        cout << "[Airplane] Конструктор: Створено літак" << endl;
+    }
+
+    ~Airplane() override {
+        cout << "[Airplane] Деструктор: Знищено літак" << endl;
+    }
+
+    void printInfo() const override {
+        Vehicle::printInfo();
+        cout << ", Макс. висота польоту: " << maxAltitude << " м" << endl;
+    }
+};
+class Car : public Vehicle {
+protected:
+    int doorsCount;
+
+public:
+    Car(string b, int s, int doors) : Vehicle(b, s), doorsCount(doors) {
+        cout << "[Car] Конструктор: Створено автомобіль" << endl;
+    }
+
+    ~Car() override {
+        cout << "[Car] Деструктор: Знищено автомобіль" << endl;
+    }
+
+    void printInfo() const override {
+        Vehicle::printInfo();
+        cout << ", Кількість дверей: " << doorsCount;
+    }
+};
+class Truck : public Car {
+private:
+    double loadCapacity;
+
+public:
+    Truck(string b, int s, int doors, double capacity) : Car(b, s, doors), loadCapacity(capacity) {
+        cout << "[Truck] Конструктор: Створено вантажівку" << endl;
+    }
+
+    ~Truck() override {
+        cout << "[Truck] Деструктор: Знищено вантажівку" << endl;
+    }
+
+    void printInfo() const override {
+        Car::printInfo();
+        cout << ", Вантажопідйомність: " << loadCapacity << " тонн" << endl;
+    }
+};
+
+int main() {
+
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+
+    cout << " " << endl;
+
+    cout << "\n1.";
+    Steamer mySteamer("Titanic", 40, 52310);
+
+    cout << "\n2.";
+    Airplane myAirplane("Boeing 747", 933, 13000);
+
+    cout << "\n3.";
+    Truck myTruck("Volvo FH16", 90, 2, 25.5);
+
+    cout << "\n\n " << endl;
+    mySteamer.printInfo();
+    myAirplane.printInfo();
+    myTruck.printInfo();
+
+    cout << "\n\n " << endl;
+    
+    return 0;
+}
